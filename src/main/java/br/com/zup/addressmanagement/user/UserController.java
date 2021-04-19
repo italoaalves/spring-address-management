@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/v1")
+@RequestMapping(path = "/api/")
 public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
@@ -32,27 +32,27 @@ public class UserController {
         User user = userRequest.toUser();
         userRepository.save(user);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(user.getId()).toUri();
-
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequestUri()
+                .path("/{id}")
+                .buildAndExpand(user.getId())
+                .toUri();
         return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping(value = "/{id}/address")
-    public ResponseEntity<Void> addNewAddress(@PathVariable("id") Long id, @RequestBody AddressRequest addressResquest) {
+    @PostMapping(value = "users/{id}/addresses")
+    public ResponseEntity<Void> addNewAddress(@PathVariable("id") Long id, @RequestBody @Valid AddressRequest addressRequest) {
         try {
-            userService.addAddress(id, addressResquest.toAddress());
-
-            URI uri = ServletUriComponentsBuilder.fromHttpUrl("/users/{id}").buildAndExpand(id).toUri();
-
+            userService.addNewAddress(id, addressRequest.toAddress());
+            URI uri = ServletUriComponentsBuilder.fromUriString("/api/users/{id}").buildAndExpand(id).toUri();
             return ResponseEntity.created(uri).build();
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-    @GetMapping(value = "/{id}")
-    public User findById(@PathVariable("id") Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElseGet(User::new);
+    @GetMapping(value = "/users/{id}")
+    public UserResponse findById(@PathVariable("id") Long id) {
+        return userRepository.findById(id).map(UserResponse::new).orElseThrow();
     }
 }

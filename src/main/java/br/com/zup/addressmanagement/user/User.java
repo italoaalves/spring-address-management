@@ -25,7 +25,7 @@ public class User {
     @Column(nullable = false)
     private LocalDate dob;
 
-    @OneToMany()
+    @OneToMany(cascade=CascadeType.MERGE)
     private Set<Address> addresses;
 
     @Deprecated
@@ -41,6 +41,26 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
     }
 
     public void addAddress(Address address) {

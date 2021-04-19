@@ -15,7 +15,7 @@ public class UserService {
     }
 
     @Transactional
-    public void addAddress(Long id, Address address) {
+    public void addNewAddress(Long id, Address address) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(
                         "User with id " + id + " does not exists."));
