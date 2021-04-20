@@ -23,7 +23,8 @@ public class AddressRequest {
     @Size(min = 9, max = 9)
     private String cep;
 
-    public AddressRequest(int number, String complement, String cep) {
+    public AddressRequest(String street, int number, String complement, String cep) {
+        this.street = street;
         this.number = number;
         this.complement = complement;
         this.cep = cep;
@@ -68,7 +69,6 @@ public class AddressRequest {
     }
 
     public void autoComplete(ViaCepAddress viaCepAddress) {
-        this.street = viaCepAddress.getLogradouro();
         this.city = viaCepAddress.getLocalidade();
         this.district = viaCepAddress.getBairro();
         this.state = viaCepAddress.getUf();

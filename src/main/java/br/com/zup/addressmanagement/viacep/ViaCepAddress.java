@@ -2,7 +2,6 @@ package br.com.zup.addressmanagement.viacep;
 
 public class ViaCepAddress {
     private String cep;
-    private String logradouro;
     private String bairro;
     private String localidade;
     private String uf;
@@ -11,9 +10,8 @@ public class ViaCepAddress {
     public ViaCepAddress() {
     }
 
-    public ViaCepAddress(String cep, String logradouro, String bairro, String localidade, String uf) {
+    public ViaCepAddress(String cep, String bairro, String localidade, String uf) {
         this.cep = cep;
-        this.logradouro = logradouro;
         this.bairro = bairro;
         this.localidade = localidade;
         this.uf = uf;
@@ -21,10 +19,6 @@ public class ViaCepAddress {
 
     public String getCep() {
         return cep;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
     }
 
     public String getBairro() {
