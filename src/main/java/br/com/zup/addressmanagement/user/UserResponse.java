@@ -1,20 +1,20 @@
 package br.com.zup.addressmanagement.user;
 
+import br.com.zup.addressmanagement.address.Address;
 import br.com.zup.addressmanagement.address.AddressResponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UserResponse {
     private String name;
     private String email;
     private String cpf;
-
-    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate dob;
-
     private Set<AddressResponse> addresses;
 
     @Deprecated
@@ -34,10 +34,15 @@ public class UserResponse {
         this.email = user.getEmail();
         this.cpf = user.getCpf();
         this.dob = user.getDob();
-        this.addresses = user.getAddresses()
-                .stream()
-                .map(AddressResponse::new)
-                .collect(Collectors.toSet());
+
+        Set<Address> addresses = user.getAddresses();
+        if(addresses != null) {
+            this.addresses = addresses.stream()
+                    .map(AddressResponse::new)
+                    .collect(Collectors.toSet());
+        } else {
+            this.addresses =  Collections.emptySet();
+        }
     }
 
     public String getName() {

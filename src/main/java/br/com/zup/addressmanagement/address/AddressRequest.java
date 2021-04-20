@@ -1,10 +1,11 @@
 package br.com.zup.addressmanagement.address;
 
 
+import br.com.zup.addressmanagement.viacep.ViaCepAddress;
+
 import javax.validation.constraints.*;
 
 public class AddressRequest {
-    @NotBlank
     private String street;
 
     @NotNull
@@ -14,27 +15,17 @@ public class AddressRequest {
     @NotBlank
     private String complement;
 
-    @NotBlank
     private String district;
-
-    @NotBlank
     private String city;
-
-    @NotBlank
-    @Size(min = 2, max = 2)
     private String state;
 
     @NotBlank
     @Size(min = 9, max = 9)
     private String cep;
 
-    public AddressRequest(String street, int number, String complement, String district, String city, String state, String cep) {
-        this.street = street;
+    public AddressRequest(int number, String complement, String cep) {
         this.number = number;
         this.complement = complement;
-        this.district = district;
-        this.city = city;
-        this.state = state;
         this.cep = cep;
     }
 
@@ -74,5 +65,12 @@ public class AddressRequest {
 
     public String getCep() {
         return cep;
+    }
+
+    public void autoComplete(ViaCepAddress viaCepAddress) {
+        this.street = viaCepAddress.getLogradouro();
+        this.city = viaCepAddress.getLocalidade();
+        this.district = viaCepAddress.getBairro();
+        this.state = viaCepAddress.getUf();
     }
 }

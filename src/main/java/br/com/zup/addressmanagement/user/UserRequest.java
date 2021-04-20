@@ -2,6 +2,7 @@ package br.com.zup.addressmanagement.user;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
@@ -29,23 +30,30 @@ public class UserRequest {
     public UserRequest() {
     }
 
+    public UserRequest(String name, String email, String cpf, LocalDate dob) {
+        this.name = name;
+        this.email = email;
+        this.cpf = cpf;
+        this.dob = dob;
+    }
+
     public User toUser() {
-        return new User(this.name, this.cpf, this.email, this.dob);
+        return new User(this.name, this.email, this.cpf, this.dob);
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
 
     public LocalDate getDob() {
-        return dob;
+        return this.dob;
     }
 }
